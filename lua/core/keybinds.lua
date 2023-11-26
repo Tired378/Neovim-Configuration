@@ -1,66 +1,116 @@
+local map = vim.keymap.set
+
 -- Maps <leader> to <Space>
 vim.g.mapleader = ' '
 -- Easy CAPS
-vim.keymap.set('n', 'cu', 'viwU')
-vim.keymap.set('n', 'cl', 'viwu')
+map('n', 'cu', 'viwU', { desc = '[U]ppercase word'})
+map('n', 'cl', 'viwu', { desc = '[L]owercase word'})
 -- Better half page jumping
-vim.keymap.set('n', '<C-d>', '<C-d>zz')
-vim.keymap.set('n', '<C-u>', '<C-u>zz')
+map('n', '<C-d>', '<C-d>zz')
+map('n', '<C-u>', '<C-u>zz')
 -- Better tabbing
-vim.keymap.set('v', '<', '<gv')
-vim.keymap.set('v', '>', '>gv')
+map('v', '<', '<gv')
+map('v', '>', '>gv')
 -- c and d no longer override the default yank/paste buffer
-vim.keymap.set('n', 'd', "\"_d")
-vim.keymap.set('v', 'd', "\"_d")
--- vim.keymap.set('n', 'c', '"_c')
--- vim.keymap.set('n', 'C', '"_C')
--- vim.keymap.set('n', 's', '"_s')
--- vim.keymap.set('n', 'S', '"_S')
+map('n', 'd', "\"_d")
+map('v', 'd', "\"_d")
+-- map('n', 'c', '"_c')
+-- map('n', 'C', '"_C')
+-- map('n', 's', '"_s')
+-- map('n', 'S', '"_S')
 -- Substitute selection without overwriting yank/paste buffer
-vim.keymap.set('x', '<leader>p', "\"_dP")
+map('x', '<leader>p', "\"_dP", { desc = 'paste no overwrite'})
 -- Create a new line under/over the cursor without entering insert
-vim.keymap.set('n', '<leader>o', 'o<ESC>')
-vim.keymap.set('n', '<leader>O', 'O<ESC>')
+map('n', '<leader>o', 'o<ESC>', { desc = 'New line under'})
+map('n', '<leader>O', 'O<ESC>', { desc = 'New line over'})
 -- Alternate way to save
-vim.keymap.set('n', '<C-s>', ':w<CR>')
+map('n', '<C-s>', ':w<CR>')
 -- Alternate way to quit
-vim.keymap.set('n', '<C-q>', ':q!<CR>')
+map('n', '<C-q>', ':q!<CR>')
 -- Quits all tabs and quits nvim
-vim.keymap.set('n', '<C-a>', ':qa<CR>')
+map('n', '<C-a>', ':qa<CR>')
 -- Use ctrl-c instead of ESC
-vim.keymap.set('n', '<C-c>', '<ESC>')
-vim.keymap.set('i', '<C-c>', '<ESC>')
-vim.keymap.set('i', 'jj', '<ESC>')
+map('n', '<C-c>', '<ESC>')
+map('i', '<C-c>', '<ESC>')
+map('i', 'jj', '<ESC>')
 -- TAB in general mode will move to the next text buffer
-vim.keymap.set('n', '<TAB>', ':bnext<CR>')
+-- map('n', '<TAB>', ':bnext<CR>')
 -- SHIFT-TAB will go back
-vim.keymap.set('n', '<S-TAB>', ':bprevious<CR>')
+-- map('n', '<S-TAB>', ':bprevious<CR>')
 -- Quick opening of vertical split and moves focus on it
-vim.keymap.set('n', '<leader>v', '<C-w>v<C-w>l')
-vim.keymap.set('n', '<leader>s', '<C-w>s<C-w>j')
+map('n', '<leader>v', '<C-w>v<C-w>l', { desc = 'Vertical split'})
+map('n', '<leader>h', '<C-w>s<C-w>j', { desc = 'Horizontal split'})
 -- Better split navigation
-vim.keymap.set('n', '<C-h>', '<C-w>h')
-vim.keymap.set('n', '<C-j>', '<C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-w>k')
-vim.keymap.set('n', '<C-l>', '<C-w>l')
+map('n', '<C-h>', '<C-w>h')
+map('n', '<C-j>', '<C-w>j')
+map('n', '<C-k>', '<C-w>k')
+map('n', '<C-l>', '<C-w>l')
 -- Faster command mode
-vim.keymap.set({"n", "v"}, ',', ':')
+map({"n", "v"}, ',', ':')
 -- Resizing of windows using ALT
-vim.keymap.set('n', '<M-S-k>', ':resize -2<CR>')
-vim.keymap.set('n', '<M-S-j>', ':resize +2<CR>')
-vim.keymap.set('n', '<M-S-l>', ':vertical resize -2<CR>')
-vim.keymap.set('n', '<M-S-h>', ':vertical resize +2<CR>')
+map('n', '<M-S-k>', ':resize -2<CR>')
+map('n', '<M-S-j>', ':resize +2<CR>')
+map('n', '<M-S-l>', ':vertical resize -2<CR>')
+map('n', '<M-S-h>', ':vertical resize +2<CR>')
 -- Enable/disable spellchecking
-vim.keymap.set('n', '<leader>à', ':set spell!<CR>')
+map('n', '<leader>à', ':set spell!<CR>', { desc = 'Enable/disable spellchecking'})
 -- Enable/disable highlight of search results
-vim.keymap.set('n', '<leader>ò', ':set hlsearch!<CR>')
+map('n', '<leader>ò', ':set hlsearch!<CR>', { desc = 'Enable/disable search highlight'})
 -- J won't move the cursor to the end of the line
-vim.keymap.set('n', 'J', 'mzJ`z')
+map('n', 'J', 'mzJ`z')
 -- Search results always at the center of the screen
-vim.keymap.set('n', 'n', 'nzzzv')
-vim.keymap.set('n', 'N', 'Nzzzv')
--- Replace every occurence of the word under the cursor in the file
-vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+-- Replace every occurrence of the word under the cursor in the file
+map("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace every occurrence of word'})
+map("n", "<leader>R", [[:%s/\<word\>/substitute/gI<Left><Left><Left>]], { desc = 'Replace every occurrence of word'})
 -- Fast sourcing of file
-vim.keymap.set("n", "<leader><leader>", ':so<CR>')
+map("n", "<leader><leader>", ':so<CR>', { desc = 'Source current file'})
+-- Trouble keybinds
+map("n", "<leader>tt", function() require("trouble").toggle() end, { desc = 'Trouble toggle'})
+map("n", "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end, { desc = 'Trouble workspace diagnostics'})
+map("n", "<leader>td", function() require("trouble").toggle("document_diagnostics") end, { desc = 'Trouble document diagnostics'})
+map("n", "<leader>tq", function() require("trouble").toggle("quickfix") end, { desc = 'Trouble quickfix'})
+map("n", "<leader>tl", function() require("trouble").toggle("loclist") end, { desc = 'Trouble loclist'})
+map("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = 'Trouble lsp references'})
+-- BarBar keybinds
+-- Move to previous/next
+map('n', '<TAB>', '<Cmd>BufferNext<CR>')
+map('n', '<S-TAB>', '<Cmd>BufferPrevious<CR>')
+-- Re-order to previous/next
+map('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>')
+map('n', '<A->>', '<Cmd>BufferMoveNext<CR>')
+-- Goto buffer in position...
+map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>')
+map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>')
+map('n', '<A-3>', '<Cmd>BufferGoto 3<CR>')
+map('n', '<A-4>', '<Cmd>BufferGoto 4<CR>')
+map('n', '<A-5>', '<Cmd>BufferGoto 5<CR>')
+map('n', '<A-6>', '<Cmd>BufferGoto 6<CR>')
+map('n', '<A-7>', '<Cmd>BufferGoto 7<CR>')
+map('n', '<A-8>', '<Cmd>BufferGoto 8<CR>')
+map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>')
+map('n', '<A-0>', '<Cmd>BufferLast<CR>')
+-- Pin/unpin buffer
+map('n', '<A-p>', '<Cmd>BufferPin<CR>')
+-- Close buffer
+map('n', '<A-c>', '<Cmd>BufferClose<CR>')
+-- Wipeout buffer
+--                 :BufferWipeout
+-- Close commands
+--                 :BufferCloseAllButCurrent
+--                 :BufferCloseAllButPinned
+--                 :BufferCloseAllButCurrentOrPinned
+--                 :BufferCloseBuffersLeft
+--                 :BufferCloseBuffersRight
+-- Magic buffer-picking mode
+map('n', '<C-p>', '<Cmd>BufferPick<CR>')
+-- Sort automatically by...
+map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', { desc = 'Order buffers by [B]uffer number' })
+map('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', { desc = 'Order buffers by [D]irectory' })
+map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', { desc = 'Order buffers by [L]anguage' })
+map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', { desc = 'Order buffers by [W]indow number' })
 
+-- Other:
+-- :BarbarEnable - enables barbar (enabled by default)
+-- :BarbarDisable - very bad command, should never be used
