@@ -150,12 +150,12 @@ local plugins = {
                             action = 'Telescope buffers',
                             key = 'a',
                         },
-                        -- {
-                        -- desc = ' dotfiles',
-                        -- group = 'Number',
-                        -- action = 'Telescope dotfiles',
-                        -- key = 'd',
-                        -- },
+                        {
+                            desc = ' Commands',
+                            group = 'Number',
+                            action = 'Telescope commands',
+                            key = 'c',
+                        },
                     },
                 },
             }

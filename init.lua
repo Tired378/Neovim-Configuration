@@ -1,4 +1,4 @@
-require("core.options")
-require("core.keybinds")
-require("core.plugins")
-require("core.plugin_config")
+require("config.options")
+require("config.keybinds")
+require("config.init")
+require("plugins")
