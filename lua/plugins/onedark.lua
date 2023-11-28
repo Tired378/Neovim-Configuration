@@ -1,4 +1,6 @@
-require('onedark').setup {
-    style = 'darker'
+return {
+    -- Theme inspired by Atom
+    'navarasu/onedark.nvim',
+    priority = 1000,
+    opts = { style = 'darker' },
 }
-require('onedark').load()

@@ -1,22 +1,23 @@
 local on_attach = function(_, bufnr)
-
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
     end
-
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  local tel = require('telescope.builtin')
 
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-  nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<leader>ca', require("actions-preview").code_actions, '[C]ode [A]ction')
+  -- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+
+  nmap('gd', tel.lsp_definitions, '[G]oto [D]efinition')
+  nmap('gr', tel.lsp_references, '[G]oto [R]eferences')
+  nmap('gI', tel.lsp_implementations, '[G]oto [I]mplementation')
+  nmap('<leader>D', tel.lsp_type_definitions, 'Type [D]efinition')
+  nmap('<leader>ds', tel.lsp_document_symbols, '[D]ocument [S]ymbols')
+  nmap('<leader>ws', tel.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -49,45 +50,49 @@ require('which-key').register {
   ['<leader>t'] = { name = '[T]rouble', _ = 'which_key_ignore' },
 }
 
-require("mason").setup()
+require("mason").setup({
+  ui = {
+    -- "none, single, double, rounded, solid, shadow"
+    border = "rounded",
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
+    },
+    height = 0.8,
+  }
+})
 require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls" }
+  ensure_installed = { "lua_ls" }
 })
 require('neodev').setup()
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require("mason-lspconfig").setup_handlers {
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
-    function (server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach
-        }
-    end,
-    ["lua_ls"] = function ()
-        require("lspconfig").lua_ls.setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { "vim" },
-              },
-              -- workspace = {
-              --   library = {
-              --     [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-              --     [vim.fn.stdpath "config" .. "/lua"] = true,
-              --   },
-              -- },
-            },
-          }
-        }
-    end
+  -- The first entry (without a key) will be the default handler
+  -- and will be called for each installed server that doesn't have
+  -- a dedicated handler.
+  function(server_name) -- default handler (optional)
+    require("lspconfig")[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach
+    }
+  end,
+  ["lua_ls"] = function()
+    require("lspconfig").lua_ls.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+        },
+      }
+    }
+  end
 }
--- require("lspconfig").lua_ls.setup {
---   on_attach = on_attach
--- }
 
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' })

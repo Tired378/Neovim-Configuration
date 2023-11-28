@@ -78,7 +78,9 @@ telescope.setup(options)
 --telescope.setup()
 
 -- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+pcall(telescope.load_extension, 'fzf')
+-- Enable persisted plugin extension
+pcall(telescope.load_extension, 'persisted')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -109,7 +111,7 @@ local function live_grep_git_root()
   local git_root = find_git_root()
   if git_root then
     require('telescope.builtin').live_grep({
-      search_dirs = {git_root},
+      search_dirs = { git_root },
     })
   end
 end
