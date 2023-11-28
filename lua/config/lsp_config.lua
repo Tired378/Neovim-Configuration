@@ -48,6 +48,7 @@ require('which-key').register {
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
   ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]rouble', _ = 'which_key_ignore' },
+  ['gp'] = { name = '[P]review', _ = 'which_key_ignore' },
 }
 
 require("mason").setup({
@@ -63,7 +64,8 @@ require("mason").setup({
   }
 })
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls" }
+  ensure_installed = { "lua_ls" },
+  automatic_installation = true,
 })
 require('neodev').setup()
 

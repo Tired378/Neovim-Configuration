@@ -97,6 +97,7 @@ return {
             require('dashboard').setup {
                 -- config
                 theme = 'hyper',
+                buffer_name = 'Dashboard',
                 config = {
                     week_header = {
                         enable = true,
@@ -125,9 +126,9 @@ return {
                             key = 'c',
                         },
                         {
-                            desc = ' Sessions',
+                            desc = ' Load Session',
                             group = 'Number',
-                            action = 'Telescope persisted',
+                            action = 'SessionLoad',
                             key = 's',
                         },
                     },

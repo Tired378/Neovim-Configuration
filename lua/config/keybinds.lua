@@ -71,7 +71,7 @@ map("n", "<leader>td", function() require("trouble").toggle("document_diagnostic
     { desc = 'Trouble document diagnostics' })
 map("n", "<leader>tq", function() require("trouble").toggle("quickfix") end, { desc = 'Trouble quickfix' })
 map("n", "<leader>tl", function() require("trouble").toggle("loclist") end, { desc = 'Trouble loclist' })
-map("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = 'Trouble lsp references' })
+map("n", "<leader>tr", function() require("trouble").toggle("lsp_references") end, { desc = 'Trouble lsp references' })
 -- BarBar keybinds
 -- Move to previous/next
 map('n', '<TAB>', '<Cmd>BufferNext<CR>')
@@ -115,8 +115,15 @@ map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', { desc = 'Order buff
 -- :BarbarDisable - very bad command, should never be used
 
 -- Open directory tree
-map('n', '<c-n>', ':Neotree toggle<CR>')
--- map('n', '<c-n>', ':NvimTreeFindFileToggle<CR>')
-map('n', '\\s', ':Neotree document_symbols<CR>')
-map('n', '\\b', ':Neotree buffers<CR>')
-map('n', '\\g', ':Neotree git_status float<CR>')
+map('n', '<c-n>', ':Neotree toggle<CR>', { desc = 'Toggle [N]eotree' })
+-- map('n', '\\s', ':Neotree document_symbols<CR>') -- Subsituted by the Outline plugin
+map('n', '\\b', ':Neotree buffers toggle<CR>', { desc = 'Neotree [B]uffers' })
+map('n', '\\g', ':Neotree git_status float toggle<CR>', { desc = 'Neotree [G]it status' })
+
+-- Goto-preview keybinds
+map("n", "gpd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { desc = "[D]efinition" })
+map("n", "gpt", "<cmd>lua require('goto-preview').goto_preview_type_definition()<CR>", { desc = "[T]ype definition" })
+map("n", "gpi", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", { desc = "[I]mplementation" })
+map("n", "gpD", "<cmd>lua require('goto-preview').goto_preview_declaration()<CR>", { desc = "[D]eclaration" })
+map("n", "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", { desc = "[R]eferences" })
+map("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>", { desc = "Close [P]review windows" })

@@ -1,6 +1,7 @@
 local builtin = require('telescope.builtin')
 local actions = require("telescope.actions")
 local trouble = require("trouble.providers.telescope")
+local z_utils = require("telescope._extensions.zoxide.utils")
 local present, telescope = pcall(require, "telescope")
 
 if not present then
@@ -69,18 +70,55 @@ local options = {
         ["<C-t>"] = trouble.open_with_trouble
       },
     },
+    extensions = {
+      zoxide = {
+        prompt_title = "[ Zoxide List ]",
+        -- Zoxide list command with score
+        list_command = "zoxide query -ls",
+        mappings = {
+          default = {
+            action = function(selection)
+              vim.cmd.edit(selection.path)
+            end,
+            after_action = function(selection)
+              print("Directory changed to " .. selection.path)
+            end
+          },
+          ["<C-h>"] = { action = z_utils.create_basic_command("split") },
+          ["<C-v>"] = { action = z_utils.create_basic_command("vsplit") },
+          ["<C-e>"] = { action = z_utils.create_basic_command("edit") },
+          ["<C-b>"] = {
+            keepinsert = true,
+            action = function(selection)
+              builtin.file_browser({ cwd = selection.path })
+            end
+          },
+          ["<C-f>"] = {
+            keepinsert = true,
+            action = function(selection)
+              builtin.find_files({ cwd = selection.path })
+            end
+          },
+          ["<C-t>"] = {
+            action = function(selection)
+              vim.cmd.tcd(selection.path)
+            end
+          },
+        },
+      },
+    },
   },
 }
 
 -- check for any override
---options = require("core.utils").load_override(options, "nvim-telescope/telescope.nvim")
 telescope.setup(options)
---telescope.setup()
 
 -- Enable telescope fzf native, if installed
 pcall(telescope.load_extension, 'fzf')
 -- Enable persisted plugin extension
 pcall(telescope.load_extension, 'persisted')
+-- Enable zoxide extension
+pcall(telescope.load_extension, 'zoxide')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -110,7 +148,7 @@ end
 local function live_grep_git_root()
   local git_root = find_git_root()
   if git_root then
-    require('telescope.builtin').live_grep({
+    builtin.live_grep({
       search_dirs = { git_root },
     })
   end
@@ -137,3 +175,7 @@ vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]re
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>ss', ':Telescope persisted<CR>', { desc = '[S]earch [S]essions' })
+
+-- Zoxide mapping
+vim.keymap.set("n", "<leader>cd", telescope.extensions.zoxide.list)
