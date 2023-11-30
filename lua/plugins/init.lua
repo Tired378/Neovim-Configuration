@@ -1,4 +1,17 @@
 return {
+    {
+        -- Theme inspired by Atom
+        'navarasu/onedark.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            -- load the colorscheme here
+            require('onedark').setup {
+                style = 'darker'
+            }
+            require('onedark').load()
+        end,
+    },
     'nvim-lualine/lualine.nvim',
     {
         'romgrk/barbar.nvim',
@@ -87,7 +100,6 @@ return {
             require('dashboard').setup {
                 -- config
                 theme = 'hyper',
-                buffer_name = 'Dashboard',
                 config = {
                     week_header = {
                         enable = true,
@@ -116,9 +128,9 @@ return {
                             key = 'c',
                         },
                         {
-                            desc = ' Load Dir Session',
+                            desc = ' Sessions',
                             group = 'Number',
-                            action = 'SessionLoad',
+                            action = 'Telescope persisted',
                             key = 's',
                         },
                     },

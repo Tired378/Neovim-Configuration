@@ -11,9 +11,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local options = {
+    ui = {
+        border = 'rounded',
+    },
+}
+
 require("config.options")
-require("lazy").setup("plugins")
-require('onedark').load()
+require("lazy").setup("plugins", options)
 require("config.keybinds")
 require("config.nvim-autopairs")
 require("config.treesitter")

@@ -17,6 +17,11 @@ return {
     "MunifTanjim/nui.nvim",
     -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
   },
+  keys = {
+    { '<c-n>', '<cmd>Neotree toggle<cr>',            desc = 'Toggle [N]eotree' },
+    { '\\b',   '<cmd>Neotree buffers toggle<cr>',    desc = 'Neotree [B]uffers' },
+    { '\\g',   '<cmd>Neotree git_status toggle<cr>', desc = 'Neotree [G]it status' },
+  },
   opts = {
     sources = {
       "filesystem",

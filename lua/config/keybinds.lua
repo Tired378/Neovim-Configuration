@@ -25,19 +25,15 @@ map('n', '<leader>O', 'O<ESC>', { desc = 'New line over' })
 -- map('n', '<C-s>', ':w<CR>')
 map('n', '<C-s>', function() vim.cmd('w') end)
 -- Alternate way to quit
--- map('n', '<C-q>', ':q!<CR>')
 map('n', '<C-q>', require "confirm-quit".confirm_quit)
 -- Quits all tabs and quits nvim
--- map('n', '<C-a>', ':qa<CR>')
 map('n', '<C-a>', require "confirm-quit".confirm_quit_all)
 -- Use ctrl-c instead of ESC
 map('n', '<C-c>', '<ESC>')
 map('i', '<C-c>', '<ESC>')
 map('i', 'jj', '<ESC>')
 -- TAB in general mode will move to the next text buffer
-map('n', 'm', function()
-    vim.cmd('MinimapToggle')
-end, { desc = 'Toggle [M]inimap' })
+map('n', 'm', function() vim.cmd('MinimapToggle') end, { desc = 'Toggle [M]inimap' })
 -- Quick opening of vertical split and moves focus on it
 map('n', '<leader>v', '<C-w>v<C-w>l', { desc = 'Vertical split' })
 map('n', '<leader>h', '<C-w>s<C-w>j', { desc = 'Horizontal split' })
@@ -79,14 +75,18 @@ map("n", "<leader><leader>", function()
     })
 end, { desc = 'Source current file' })
 -- Trouble keybinds
-map("n", "<leader>tt", function() require("trouble").toggle() end, { desc = 'Trouble toggle' })
+map("n", "<leader>tt", function() require("trouble").toggle() end,
+    { desc = 'Trouble toggle' })
 map("n", "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end,
     { desc = 'Trouble workspace diagnostics' })
 map("n", "<leader>td", function() require("trouble").toggle("document_diagnostics") end,
     { desc = 'Trouble document diagnostics' })
-map("n", "<leader>tq", function() require("trouble").toggle("quickfix") end, { desc = 'Trouble quickfix' })
-map("n", "<leader>tl", function() require("trouble").toggle("loclist") end, { desc = 'Trouble loclist' })
-map("n", "<leader>tr", function() require("trouble").toggle("lsp_references") end, { desc = 'Trouble lsp references' })
+map("n", "<leader>tq", function() require("trouble").toggle("quickfix") end,
+    { desc = 'Trouble quickfix' })
+map("n", "<leader>tl", function() require("trouble").toggle("loclist") end,
+    { desc = 'Trouble loclist' })
+map("n", "<leader>tr", function() require("trouble").toggle("lsp_references") end,
+    { desc = 'Trouble lsp references' })
 -- BarBar keybinds
 -- Move to previous/next
 map('n', '<TAB>', '<Cmd>BufferNext<CR>')
@@ -129,20 +129,6 @@ map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', { desc = 'Order buff
 -- :BarbarEnable - enables barbar (enabled by default)
 -- :BarbarDisable - very bad command, should never be used
 
--- Open directory tree
-map('n', '<c-n>', function()
-    vim.cmd('Neotree toggle')
-end, { desc = 'Toggle [N]eotree' })
--- map('n', '\\s', ':Neotree document_symbols<CR>') -- Subsituted by the Outline plugin
--- Open buffers tree
-map('n', '\\b', function()
-    vim.cmd('Neotree buffers toggle')
-end, { desc = 'Neotree [B]uffers' })
--- Open git status tree
-map('n', '\\g', function()
-    vim.cmd('Neotree git_status toggle')
-end, { desc = 'Neotree [G]it status' })
-
 -- Goto-preview keybinds
 map("n", "gpd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { desc = "[D]efinition" })
 map("n", "gpt", "<cmd>lua require('goto-preview').goto_preview_type_definition()<CR>", { desc = "[T]ype definition" })
@@ -173,14 +159,14 @@ map("n", "<leader>nh", function()
     require("noice").cmd("history")
 end, { desc = "[H]istory" })
 
-vim.keymap.set({ "n", "i", "s" }, "<c-f>", function()
+vim.keymap.set({ "n", "i", "s" }, "<c-d>", function()
     if not require("noice.lsp").scroll(4) then
-        return "<c-f>"
+        return "<c-d>"
     end
 end, { silent = true, expr = true })
 
-vim.keymap.set({ "n", "i", "s" }, "<c-b>", function()
+vim.keymap.set({ "n", "i", "s" }, "<c-u>", function()
     if not require("noice.lsp").scroll(-4) then
-        return "<c-b>"
+        return "<c-u>"
     end
 end, { silent = true, expr = true })

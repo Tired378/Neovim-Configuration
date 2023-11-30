@@ -71,6 +71,9 @@ local options = {
       },
     },
     extensions = {
+      persisted = {
+        layout_config = { width = 0.55, height = 0.55 }
+      },
       zoxide = {
         prompt_title = "[ Zoxide List ]",
         -- Zoxide list command with score
