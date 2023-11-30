@@ -31,6 +31,8 @@ vim.opt.pumheight = 10
 vim.opt.cmdheight = 0
 vim.opt.iskeyword = vim.opt.iskeyword + '-'
 
+vim.opt.confirm = true
+
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 -- Required by COC

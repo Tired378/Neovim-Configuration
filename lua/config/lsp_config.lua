@@ -8,7 +8,11 @@ local on_attach = function(_, bufnr)
 
   local tel = require('telescope.builtin')
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  -- nmap('<leader>rn', ":IncRename ", '[R]e[n]ame')
+  vim.keymap.set("n", "<leader>rn", function()
+    return ":IncRename " .. vim.fn.expand("<cword>")
+  end, { expr = true })
   nmap('<leader>ca', require("actions-preview").code_actions, '[C]ode [A]ction')
   -- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -48,6 +52,7 @@ require('which-key').register {
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
   ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]rouble', _ = 'which_key_ignore' },
+  ['<leader>n'] = { name = '[N]oice', _ = 'which_key_ignore' },
   ['gp'] = { name = '[P]review', _ = 'which_key_ignore' },
 }
 

@@ -22,17 +22,22 @@ map('x', '<leader>p', "\"_dP", { desc = 'paste no overwrite' })
 map('n', '<leader>o', 'o<ESC>', { desc = 'New line under' })
 map('n', '<leader>O', 'O<ESC>', { desc = 'New line over' })
 -- Alternate way to save
-map('n', '<C-s>', ':w<CR>')
+-- map('n', '<C-s>', ':w<CR>')
+map('n', '<C-s>', function() vim.cmd('w') end)
 -- Alternate way to quit
-map('n', '<C-q>', ':q!<CR>')
+-- map('n', '<C-q>', ':q!<CR>')
+map('n', '<C-q>', require "confirm-quit".confirm_quit)
 -- Quits all tabs and quits nvim
-map('n', '<C-a>', ':qa<CR>')
+-- map('n', '<C-a>', ':qa<CR>')
+map('n', '<C-a>', require "confirm-quit".confirm_quit_all)
 -- Use ctrl-c instead of ESC
 map('n', '<C-c>', '<ESC>')
 map('i', '<C-c>', '<ESC>')
 map('i', 'jj', '<ESC>')
 -- TAB in general mode will move to the next text buffer
-map('n', 'm', ':MinimapToggle<CR>')
+map('n', 'm', function()
+    vim.cmd('MinimapToggle')
+end, { desc = 'Toggle [M]inimap' })
 -- Quick opening of vertical split and moves focus on it
 map('n', '<leader>v', '<C-w>v<C-w>l', { desc = 'Vertical split' })
 map('n', '<leader>h', '<C-w>s<C-w>j', { desc = 'Horizontal split' })
@@ -44,14 +49,18 @@ map('n', '<C-l>', '<C-w>l')
 -- Faster command mode
 map({ "n", "v" }, ',', ':')
 -- Resizing of windows using ALT
-map('n', '<M-S-k>', ':resize -2<CR>')
-map('n', '<M-S-j>', ':resize +2<CR>')
-map('n', '<M-S-l>', ':vertical resize -2<CR>')
-map('n', '<M-S-h>', ':vertical resize +2<CR>')
+map('n', '<M-S-k>', function() vim.cmd('resize -2') end)
+map('n', '<M-S-j>', function() vim.cmd('resize +2') end)
+map('n', '<M-S-l>', function() vim.cmd('vertical resize -2') end)
+map('n', '<M-S-h>', function() vim.cmd('vertical resize +2') end)
 -- Enable/disable spellchecking
-map('n', '<leader>à', ':set spell!<CR>', { desc = 'Enable/disable spellchecking' })
+map('n', '<leader>à', function()
+    vim.cmd('set spell!')
+end, { desc = 'Enable/disable spellchecking' })
 -- Enable/disable highlight of search results
-map('n', '<leader>ò', ':set hlsearch!<CR>', { desc = 'Enable/disable search highlight' })
+map('n', '<leader>ò', function()
+    vim.cmd('set hlsearch!')
+end, { desc = 'Enable/disable search highlight' })
 -- J won't move the cursor to the end of the line
 map('n', 'J', 'mzJ`z')
 -- Search results always at the center of the screen
@@ -62,7 +71,13 @@ map("n", "<leader>R", [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = 'Replace every occurrence of word' })
 -- map("n", "<leader>R", [[:%s/word/substitute/gI<Left><Left><Left>]], { desc = 'Replace every occurrence of word' })
 -- Fast sourcing of file
-map("n", "<leader><leader>", ':so<CR>', { desc = 'Source current file' })
+map("n", "<leader><leader>", function()
+    vim.cmd('so')
+    -- require('notify')('Sourced file')
+    vim.notify('Sourced file.', "info", {
+        title = "Messages",
+    })
+end, { desc = 'Source current file' })
 -- Trouble keybinds
 map("n", "<leader>tt", function() require("trouble").toggle() end, { desc = 'Trouble toggle' })
 map("n", "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end,
@@ -91,7 +106,7 @@ map('n', '<A-8>', '<Cmd>BufferGoto 8<CR>')
 map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>')
 map('n', '<A-0>', '<Cmd>BufferLast<CR>')
 -- Pin/unpin buffer
-map('n', '<A-p>', '<Cmd>BufferPin<CR>')
+-- map('n', '<A-p>', '<Cmd>BufferPin<CR>')
 -- Close buffer
 map('n', '<A-c>', '<Cmd>BufferClose<CR>')
 -- Wipeout buffer
@@ -115,10 +130,18 @@ map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', { desc = 'Order buff
 -- :BarbarDisable - very bad command, should never be used
 
 -- Open directory tree
-map('n', '<c-n>', ':Neotree toggle<CR>', { desc = 'Toggle [N]eotree' })
+map('n', '<c-n>', function()
+    vim.cmd('Neotree toggle')
+end, { desc = 'Toggle [N]eotree' })
 -- map('n', '\\s', ':Neotree document_symbols<CR>') -- Subsituted by the Outline plugin
-map('n', '\\b', ':Neotree buffers toggle<CR>', { desc = 'Neotree [B]uffers' })
-map('n', '\\g', ':Neotree git_status float toggle<CR>', { desc = 'Neotree [G]it status' })
+-- Open buffers tree
+map('n', '\\b', function()
+    vim.cmd('Neotree buffers toggle')
+end, { desc = 'Neotree [B]uffers' })
+-- Open git status tree
+map('n', '\\g', function()
+    vim.cmd('Neotree git_status toggle')
+end, { desc = 'Neotree [G]it status' })
 
 -- Goto-preview keybinds
 map("n", "gpd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { desc = "[D]efinition" })
@@ -127,3 +150,37 @@ map("n", "gpi", "<cmd>lua require('goto-preview').goto_preview_implementation()<
 map("n", "gpD", "<cmd>lua require('goto-preview').goto_preview_declaration()<CR>", { desc = "[D]eclaration" })
 map("n", "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", { desc = "[R]eferences" })
 map("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>", { desc = "Close [P]review windows" })
+
+-- Url-open keybind
+-- map("n", "gl", "<esc>:URLOpenUnderCursor<cr>", { desc = "Open [L]ink under cursor" })
+map("n", "gl", function()
+    vim.cmd("URLOpenUnderCursor")
+    -- I'm keeping it here for future use
+    -- local handlers = require('url-open.modules.handlers')
+    -- local options = require('url-open.modules.options')
+    -- handlers.open_url(options.DEFAULT_OPTIONS)
+end, { desc = "Open [L]ink under cursor" })
+
+-- Nvim-toggler keybinds
+map({ 'n', 'v' }, '<leader>i', require('nvim-toggler').toggle, { desc = "Toggle [I]nverse" })
+
+-- Noice keybinds
+map("n", "<leader>nl", function()
+    require("noice").cmd("last")
+end, { desc = "[L]ast command" })
+
+map("n", "<leader>nh", function()
+    require("noice").cmd("history")
+end, { desc = "[H]istory" })
+
+vim.keymap.set({ "n", "i", "s" }, "<c-f>", function()
+    if not require("noice.lsp").scroll(4) then
+        return "<c-f>"
+    end
+end, { silent = true, expr = true })
+
+vim.keymap.set({ "n", "i", "s" }, "<c-b>", function()
+    if not require("noice.lsp").scroll(-4) then
+        return "<c-b>"
+    end
+end, { silent = true, expr = true })

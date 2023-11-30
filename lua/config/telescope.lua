@@ -119,6 +119,8 @@ pcall(telescope.load_extension, 'fzf')
 pcall(telescope.load_extension, 'persisted')
 -- Enable zoxide extension
 pcall(telescope.load_extension, 'zoxide')
+-- Enable noice extension
+pcall(telescope.load_extension, 'noice')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -172,10 +174,14 @@ vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
+vim.keymap.set('n', '<leader>sG', function()
+  vim.cmd('LiveGrepGitRoot')
+end, { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>ss', ':Telescope persisted<CR>', { desc = '[S]earch [S]essions' })
+vim.keymap.set('n', '<leader>ss', function()
+  vim.cmd('Telescope persisted')
+end, { desc = '[S]earch [S]essions' })
 
 -- Zoxide mapping
 vim.keymap.set("n", "<leader>cd", telescope.extensions.zoxide.list)

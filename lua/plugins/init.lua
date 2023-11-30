@@ -1,17 +1,5 @@
 return {
-    {
-        -- Set lualine as statusline
-        'nvim-lualine/lualine.nvim',
-        -- See `:help lualine.txt`
-        opts = {
-            options = {
-                icons_enabled = true,
-                theme = 'onedark',
-                component_separators = '|',
-                section_separators = '',
-            },
-        },
-    },
+    'nvim-lualine/lualine.nvim',
     {
         'romgrk/barbar.nvim',
         dependencies = {
@@ -60,9 +48,11 @@ return {
 
             -- Adds a number of user-friendly snippets
             'rafamadriz/friendly-snippets',
+
+            -- Better comparison for completion items
+            'lukas-reineke/cmp-under-comparator',
         },
     },
-    'lukas-reineke/cmp-under-comparator',
     {
         -- Parenthesis autopairs
         'windwp/nvim-autopairs',
@@ -126,7 +116,7 @@ return {
                             key = 'c',
                         },
                         {
-                            desc = ' Load Session',
+                            desc = ' Load Dir Session',
                             group = 'Number',
                             action = 'SessionLoad',
                             key = 's',

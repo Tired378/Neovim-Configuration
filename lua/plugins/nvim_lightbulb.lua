@@ -142,6 +142,10 @@ return {
   opts = {
     sign = { enabled = false },
     virtual_text = { enabled = true },
+    float = { enabled = false },
+    status_text = { enabled = false },
+    number = { enabled = true },
+    line = { enabled = true },
     autocmd = { enabled = true }
   }
 }
