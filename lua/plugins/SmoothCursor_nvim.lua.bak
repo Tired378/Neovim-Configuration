@@ -1,0 +1,22 @@
+-- No example configuration was found for this plugin.
+--
+-- For detailed information on configuring this plugin, please refer to its
+-- official documentation:
+--
+--   https://github.com/gen740/SmoothCursor.nvim
+--
+-- If you wish to use this plugin, you can optionally modify and then uncomment
+-- the configuration below.
+
+return {
+  -- "gen740/SmoothCursor.nvim",
+  -- opts = {
+  --   type = "matrix",
+  --   matrix = {
+  --     unstop = true,
+  --   },
+  --   disabled_filetypes = { 'lazy', 'neo-tree', 'neo-tree-popup', 'notify', 'neo-tree-preview',
+  --     'OUTLINE_1', 'dashboard' },
+  --
+  -- }
+}

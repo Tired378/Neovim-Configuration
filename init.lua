@@ -12,6 +12,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local options = {
+    checker = {
+        enabled = true,
+        notify = true,
+    },
+    change_dettection = {
+        notify = false,
+    },
     ui = {
         border = 'rounded',
     },

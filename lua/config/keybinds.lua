@@ -138,14 +138,14 @@ map("n", "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>"
 map("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>", { desc = "Close [P]review windows" })
 
 -- Url-open keybind
--- map("n", "gl", "<esc>:URLOpenUnderCursor<cr>", { desc = "Open [L]ink under cursor" })
-map("n", "gl", function()
-    vim.cmd("URLOpenUnderCursor")
-    -- I'm keeping it here for future use
-    -- local handlers = require('url-open.modules.handlers')
-    -- local options = require('url-open.modules.options')
-    -- handlers.open_url(options.DEFAULT_OPTIONS)
-end, { desc = "Open [L]ink under cursor" })
+map("n", "gl", "<cmd>URLOpenUnderCursor<cr>", { desc = "Open [L]ink under cursor" })
+-- map("n", "gl", function()
+--     vim.cmd("URLOpenUnderCursor")
+--     -- I'm keeping it here for future use
+--     -- local handlers = require('url-open.modules.handlers')
+--     -- local options = require('url-open.modules.options')
+--     -- handlers.open_url(options.DEFAULT_OPTIONS)
+-- end, { desc = "Open [L]ink under cursor" })
 
 -- Nvim-toggler keybinds
 map({ 'n', 'v' }, '<leader>i', require('nvim-toggler').toggle, { desc = "Toggle [I]nverse" })

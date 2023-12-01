@@ -109,6 +109,43 @@ local options = {
           },
         },
       },
+      import = {
+        -- Add imports to the top of the file keeping the cursor in place
+        insert_at_top = true,
+        -- Support additional languages
+        custom_languages = {
+          {
+            -- The regex pattern for the import statement
+            regex = [[^(?:import(?:[\"'\s]*([\w*{}\n, ]+)from\s*)?[\"'\s](.*?)[\"'\s].*)]],
+            -- The Vim filetypes
+            filetypes = { "typescript", "typescriptreact", "javascript", "react" },
+            -- The filetypes that ripgrep supports (find these via `rg --type-list`)
+            extensions = { "js", "ts" },
+          },
+        },
+      },
+      undo = {
+        side_by_side = true,
+        layout_strategy = "vertical",
+        layout_config = {
+          preview_height = 0.8,
+        },
+        mappings = {
+          i = {
+            ["<cr>"] = require("telescope-undo.actions").yank_additions,
+            ["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
+            ["<C-cr>"] = require("telescope-undo.actions").restore,
+            -- alternative defaults, for users whose terminals do questionable things with modified <cr>
+            -- ["<C-y>"] = require("telescope-undo.actions").yank_deletions,
+            -- ["<C-r>"] = require("telescope-undo.actions").restore,
+          },
+          n = {
+            ["y"] = require("telescope-undo.actions").yank_additions,
+            ["Y"] = require("telescope-undo.actions").yank_deletions,
+            ["u"] = require("telescope-undo.actions").restore,
+          },
+        },
+      },
     },
   },
 }
@@ -124,6 +161,12 @@ pcall(telescope.load_extension, 'persisted')
 pcall(telescope.load_extension, 'zoxide')
 -- Enable noice extension
 pcall(telescope.load_extension, 'noice')
+-- Enable import extension
+pcall(telescope.load_extension, 'import')
+-- Enable neoclip extension
+pcall(telescope.load_extension, 'neoclip')
+-- Enable undo extension
+pcall(telescope.load_extension, 'undo')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -187,4 +230,10 @@ vim.keymap.set('n', '<leader>ss', function()
 end, { desc = '[S]earch [S]essions' })
 
 -- Zoxide mapping
-vim.keymap.set("n", "<leader>cd", telescope.extensions.zoxide.list)
+vim.keymap.set("n", "<leader>cd", telescope.extensions.zoxide.list, { desc = '[C]hange [D]irectory' })
+-- Import mapping
+vim.keymap.set("n", "<leader>si", '<cmd>Telescope import<cr>', { desc = 'Fast [I]mports' })
+-- Neoclip mapping
+vim.keymap.set("n", "<leader>ch", '<cmd>Telescope neoclip<cr>', { desc = '[C]lipboard [H]istory' })
+-- Notify mapping
+vim.keymap.set("n", "<leader>sn", '<cmd>Telescope notify<cr>', { desc = '[S]earch [N]otifications' })

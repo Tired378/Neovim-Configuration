@@ -8,6 +8,7 @@
 -- If you wish to use this plugin, you can optionally modify and then uncomment
 -- the configuration below.
 
+-- filetypes: 'neo-tree', "neo-tree-popup", "notify", neo-tree-preview
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",

@@ -1,3 +1,5 @@
+local lazy_status = require('lazy.status')
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -10,7 +12,14 @@ require('lualine').setup {
       { 'mode', separator = { left = '' }, right_padding = 2 },
     },
     lualine_b = { 'filename', 'branch' },
-    lualine_c = { 'fileformat' },
+    lualine_c = {
+      { 'fileformat' },
+      {
+        lazy_status.updates,
+        cond = lazy_status.has_updates,
+        color = { fg = "#ff9e64" },
+      }
+    },
     lualine_x = {
       {
         require("noice").api.status.message.get_hl,
